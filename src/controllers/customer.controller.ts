@@ -1,36 +1,45 @@
 import {Request, Response} from 'express';
 import { Customer } from '../entities/customer.entity';
 import { getRepository } from 'typeorm';
-// import CustomerRepository from '../repositories/customer.repository';
-// import { Car } from '../entities/car.entity';
 
-// export default class CustomerController {
-
-//     constructor(private customerRepository: CustomerRepository){}
-    
-//     async getCustomers(req: Request, res: Response): Promise<Response> {
-//         const users: Customer[] = await this.customerRepository.getAll();
-//         return res.json({users});
+// export const getCustomers = async (req: Request, res: Response): Promise<Response> => {
+//   //  const customers = await getRepository(Customer).find({isActive: true});
+//     const customers = await getRepository(Customer).find();
+//     if(customers.length > 0){
+//         return res.json(customers);
 //     }
-        
-//     // async createCustomer(req: Request, res: Response): Promise<Response> {
-//     //     const newCustomer: Customer = await this.customerRepository.create(req.body);
-//     //     return 
-//     // }
 
+//     return res.status(400).json({msg: 'Customers not found'});
 // }
 
 export const getCustomers = async (req: Request, res: Response): Promise<Response> => {
-    const customers = await getRepository(Customer).find({isActive: true});
+    const customers = await getRepository(Customer)
+        .createQueryBuilder('customer')
+        .getMany();
+
     if(customers.length > 0){
         return res.json(customers);
     }
 
-    return res.status(400).json({msg: 'Customers not found'});
+    return res.status(400).json({msg: 'Customers Not Found'});
 }
 
+// export const getCustomer = async (req: Request, res: Response): Promise<Response> => {
+//     const customer = await getRepository(Customer).findOne(req.params.dni);
+//     if(!customer){
+//         return res.status(400).json({msg: 'Customer not found'});
+//     }
+    
+//     return res.json(customer);
+// }
+
 export const getCustomer = async (req: Request, res: Response): Promise<Response> => {
-    const customer = await getRepository(Customer).findOne(req.params.dni);
+    const customer = await getRepository(Customer)
+        .createQueryBuilder('customer')
+        .leftJoinAndSelect('customer.car', 'car')
+        .where('customer.dni = :dni', {dni: req.params.dni})
+        .getOne();
+
     if(!customer){
         return res.status(400).json({msg: 'Customer not found'});
     }
@@ -55,11 +64,13 @@ export const updateCustomer = async (req: Request, res: Response): Promise<Respo
 }
 
 export const deleteCustomer = async (req: Request, res: Response): Promise<Response> => {
-    const customer = await getRepository(Customer).findOne(req.params.dni);
-    if(customer){
-        getRepository(Customer).merge(customer, {isActive: false});
-        await getRepository(Customer).save(customer);
-        return res.json({msg: 'Customer Eliminated'});
-    }
-    return res.status(400).json({msg: 'Customer Not Found'});
+    // const customer = await getRepository(Customer).findOne(req.params.dni);
+    // if(customer){
+    //     getRepository(Customer).merge(customer, {isActive: false});
+    //     await getRepository(Customer).save(customer);
+    //     return res.json({msg: 'Customer Eliminated'});
+    // }
+    // return res.status(400).json({msg: 'Customer Not Found'});
+    const customer = await getRepository(Customer).delete(req.params);
+    return res.json({msg: 'Customer Eliminated'});
 }

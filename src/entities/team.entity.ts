@@ -1,20 +1,18 @@
-import {Entity, OneToMany, PrimaryGeneratedColumn, OneToOne, JoinColumn} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, OneToOne, JoinColumn, Column } from 'typeorm';
 import {User} from './user.entity';
-import { Service } from './service.entity';
 
 @Entity()
 export class Team {
     @PrimaryGeneratedColumn()
-    id: number;
+    teamID: number;
 
-    @OneToOne(type => User, user => user.id, {eager: true})
+    @Column()
+    name: string;
+    
+    @OneToOne(type => User, user => user.id)
     @JoinColumn()
-    teamleader: User;
+    leader: User;
 
-    @OneToOne(type => Service, {eager: true})
-    @JoinColumn()
-    service: Service;
-
-    @OneToMany(type => User, user => user.id)
-    users: User[];
+    // @ManyToMany(type => Service, service => service.teamID)
+    // serviceID: Service[];
 }

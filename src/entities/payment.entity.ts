@@ -1,21 +1,21 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, JoinColumn, ManyToOne } from 'typeorm';
-import { Service } from './service.entity';
-import { Car } from './car.entity';
+// import { Entity, Column, PrimaryGeneratedColumn, OneToMany, JoinColumn, ManyToOne } from 'typeorm';
+// import { Service } from './service.entity';
+// import { Car } from './car.entity';
 
-@Entity()
-export class Payment {
-    @PrimaryGeneratedColumn()
-    id: number;
+// @Entity()
+// export class Payment {
+//     @PrimaryGeneratedColumn()
+//     id: number;
 
-    @Column()
-    customerDNI: string;
+//     @Column()
+//     customerDNI: string;
 
-    @ManyToOne(type => Car, car => car.plate)
-    carPLATE: string;
+//     @ManyToOne(type => Car, car => car.plate)
+//     carPLATE: string;
 
-    @OneToMany(type => Service, service => service.id)
-    services: Service[];
+//     @OneToMany(type => Service, service => service.id)
+//     services: Service[];
 
-    @Column()
-    total: number;
-}
+//     @Column()
+//     total: number;
+// }

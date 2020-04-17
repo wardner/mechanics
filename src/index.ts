@@ -9,6 +9,9 @@ import carRoutes from './routes/car.routes';
 import serviceRoutes from './routes/service.routes';
 import userRoutes from './routes/user.routes';
 import teamRoutes from './routes/team.routes';
+import loginRoutes from './routes/login.routes';
+//Middleware para validar el token
+import { tokenValidator } from './middlewares/auth.middleware';
 
 const app = express();
 createConnection()
@@ -23,11 +26,12 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
 //routes
-app.use(userRoutes);
-app.use(teamRoutes);
-app.use(customerRoutes);
-app.use(carRoutes);
-app.use(serviceRoutes);
+app.use(tokenValidator, userRoutes);
+app.use(tokenValidator, teamRoutes);
+app.use(tokenValidator, customerRoutes);
+app.use(tokenValidator, carRoutes);
+app.use(tokenValidator, serviceRoutes);
+app.use(loginRoutes);
 
 //Server Port
 app.listen(3000);

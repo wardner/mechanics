@@ -1,10 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-import {Payment} from './payment.entity';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable } from 'typeorm';
+import { Team } from './team.entity';
+import { Car } from './car.entity';
 
 @Entity()
 export class Service {
     @PrimaryGeneratedColumn()
-    id: number;
+    serviceID: number;
 
     @Column()
     name: string;
@@ -12,9 +13,13 @@ export class Service {
     @Column({nullable: true})
     description: string;
 
-    @Column()
-    price: number;
+    @ManyToMany(type => Team)
+    @JoinTable({name: 'team_services'})
+    teams: Team[];
 
-    @ManyToOne(type => Payment, payment => payment.services)
-    payment: Payment;
+    @ManyToMany(type => Car, car => car.services)
+    cars: Car[];
+
+    // @ManyToOne(type => Payment, payment => payment.services)
+    // payment: Payment;
 }

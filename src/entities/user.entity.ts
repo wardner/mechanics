@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, BeforeInsert } from 'typeorm';
+import bcrypt from "bcryptjs";
 import {Team} from './team.entity';
 
 enum rol {
@@ -24,8 +25,18 @@ export class User {
     password: string;
     
     @Column({default: 'user'})
-    rol: rol;
+    role: rol;
 
-    @ManyToOne(type => Team, team => team.id)
-    team: Team;
+    @ManyToOne(type => Team, team => team.teamID)
+    team: Team[];
+
+    @BeforeInsert()
+    async encryptPassword() {
+        const hash = bcrypt.hashSync(this.password, 10);
+        this.password = hash;
+        return this.password;
+    }
+
+    comparePassword = (pass: string): boolean =>
+        bcrypt.compareSync(pass, this.password);
 }

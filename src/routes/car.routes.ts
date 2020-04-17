@@ -1,11 +1,11 @@
 import {Router} from 'express';
-import { getCars, createCar, updateCar, deleteCar, getCar } from '../controllers/car.controller';
+import { getCars, createCar, updateCar, deleteCar, getCar, carServices } 
+from '../controllers/car.controller';
 const router = Router();
 
 router.get('/cars', getCars);
-router.get('/car/:plate', getCar);
+router.get('/car/:dni', carServices);
 router.post('/car', createCar);
-router.put('/car/:plate', updateCar);
-router.delete('/car/:plate', deleteCar);
+router.route('/car/:plate').get(getCar).put(updateCar).delete(deleteCar);
 
 export default router;

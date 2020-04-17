@@ -1,12 +1,12 @@
-import {Entity, Column, OneToMany, Generated, ManyToOne} from 'typeorm';
+import {Entity, Column, ManyToMany, Generated, JoinTable, ManyToOne} from 'typeorm';
 import {Customer} from './customer.entity';
-import { Payment } from './payment.entity';
+import { Service } from './service.entity';
 
 @Entity()
 export class Car {
     @Column()
     @Generated()
-    id: number;
+    carID: number;
 
     @Column({primary: true, unique: true})
     plate: string;
@@ -18,7 +18,7 @@ export class Car {
     model: string;
 
     @Column()
-    year: number;
+    year: string;
 
     @Column()
     color: string;
@@ -26,8 +26,12 @@ export class Car {
     @ManyToOne(type => Customer, customer => customer.car)
     customer: Customer;
 
-    @OneToMany(type => Payment, payment => payment.id)
-    payment: Payment[];
+    @ManyToMany(type => Service, service => service.cars)
+    @JoinTable({name: 'car_services'})
+    services: Service[];
+
+    // @ManyToOne(type => Customer, customer => customer.dni)
+    // customerDNI: Customer;
 
     // @OneToMany(type => Service, service => service.id)
     // service: Service[];

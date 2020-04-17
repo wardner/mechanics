@@ -1,14 +1,11 @@
 import {Entity, Column, OneToMany, Generated} from 'typeorm';
-import {Car} from './car.entity';
+import { Car } from './car.entity';
 
 @Entity()
 export class Customer {
     @Column()
     @Generated()    
-    id: number;
-
-    @Column({primary: true, nullable: false, unique: true})
-    dni: string;
+    customerID: number;
 
     @Column()
     name: string;
@@ -16,17 +13,18 @@ export class Customer {
     @Column()
     lastname: string;
 
+    @Column({primary: true, nullable: false, unique: true})
+    dni: string;
+
     @Column()
-    cellphone: number;
+    cel: string;
 
     @Column({nullable: true, unique: true})
     email: string;
 
-    @OneToMany(type => Car, car => car.customer, {
-        eager: true
-    })
+    @OneToMany(type => Car, car => car.customer)
     car: Car[];
 
-    @Column({default: 'true'})
-    isActive: boolean;
+    // @Column({default: 'true'})
+    // isActive: boolean;
 }
