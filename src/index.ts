@@ -26,11 +26,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 //routes
-app.use(tokenValidator, userRoutes);
-app.use(tokenValidator, teamRoutes);
-app.use(tokenValidator, customerRoutes);
-app.use(tokenValidator, carRoutes);
-app.use(tokenValidator, serviceRoutes);
+app.use(userRoutes);
+app.use(teamRoutes);
+app.use(customerRoutes);
+app.use(carRoutes);
+app.use(serviceRoutes);
 app.use(loginRoutes);
 
 //Server Port
