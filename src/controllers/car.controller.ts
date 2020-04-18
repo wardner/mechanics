@@ -44,55 +44,14 @@ export const deleteCar = async (req: Request, res: Response): Promise<Response> 
     return res.json({results, msg: 'Car Deleted'});
 }
 
-// export const carServices = async (req: Request, res: Response): Promise<Response> => {
-//     const carServices = await getRepository(Car)
-//         .createQueryBuilder('car')
-//         .innerJoinAndSelect('car.services', 'service')
-//         .select([
-//             'car.plate',
-//             'car.brand',
-//             'car.model',
-//             'car.year',
-//             'car.color',
-//             'service.name'
-//         ])
-//         .where('customerDni = :dni', {dni: req.params.dni})
-//         .printSql()
-//         .getMany();
-
-//     return res.json(carServices);
-
-// }
-
 export const carServices = async (req: Request, res: Response): Promise<Response> => {
-    // const carServices = await getRepository(Car).find({
-    //     join: {
-    //         alias: 'car',
-    //         innerJoinAndSelect: {
-    //             services: 'car.services'
-    //         }
-    //     },
-    //     select: ['plate', 'brand', 'model', 'year', 'color'],
-    //     where: {customer: req.params.dni}
-    // });
 
     const carServices = await getRepository(Car).find({
         relations: ['services'],
         select: ['plate', 'brand', 'model', 'year', 'color'],
         where: {customer: req.params.dni}
     });
-        // .innerJoinAndSelect('car.services', 'service')
-        // .select([
-        //     'car.plate',
-        //     'car.brand',
-        //     'car.model',
-        //     'car.year',
-        //     'car.color',
-        //     'service.name'
-        // ])
-        // .where('customerDni = :dni', {dni: req.params.dni})
-        // .printSql()
-        // .getMany();
+
 
     return res.json(carServices);
 
