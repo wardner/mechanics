@@ -8,9 +8,11 @@ const config = {
     password: process.env.DB_PASS,
     database: process.env.DB_NAME,
     synchronize: true,
-    logging: false,
-    ssl: process.env.SSL,
-    entities: ["dist/entities/**/*.js"]
+    entities: ["dist/entities/**/*.js"],
+    options: {
+        enableArithAbort: true
+    },
+    enabledDrivers: ["mssql"],
 };
 
 
