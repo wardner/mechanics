@@ -34,5 +34,5 @@ app.use(tokenValidator, serviceRoutes);
 app.use(loginRoutes);
 
 //Server Port
-app.listen(4000);
-console.log('Server on Port', 4000);
+app.listen(process.env.PORT);
+console.log('Server on Port', process.env.PORT);
