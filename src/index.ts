@@ -2,7 +2,9 @@ import 'reflect-metadata';
 import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
-import {createConnection} from 'typeorm';
+import { createConnection } from 'typeorm';
+import dotenv from 'dotenv';
+dotenv.config();
 
 import customerRoutes from './routes/customer.routes';
 import carRoutes from './routes/car.routes';
@@ -11,7 +13,7 @@ import userRoutes from './routes/user.routes';
 import teamRoutes from './routes/team.routes';
 import loginRoutes from './routes/login.routes';
 //Middleware para validar el token
-import { tokenValidator } from './middlewares/auth.middleware';
+import { tokenValidator, roleValidator } from './middlewares/auth.middleware';
 
 const app = express();
 createConnection()
@@ -23,7 +25,7 @@ createConnection()
 app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({ extended: false }));
 
 //routes
 app.use(tokenValidator, userRoutes);

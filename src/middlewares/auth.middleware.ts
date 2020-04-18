@@ -21,3 +21,17 @@ export const tokenValidator = (req: Request, res: Response, next: NextFunction) 
     // next();
     // let payload = jwt.verify(token, 'SEED-DESARROLLO');
 }
+
+//Verifica el rol del usuario
+export const roleValidator = (req: Request, res: Response, next: NextFunction) => {
+
+    let role = req.user.role;
+
+    if(role != 'admin' || 'ADMIN'){
+        return res.status(401).json({
+            msg: 'Unathorized Area'
+        });
+    }
+
+    next();
+}
