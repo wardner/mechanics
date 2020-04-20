@@ -6,6 +6,6 @@ const router = Router();
 router.get('/cars', getCars);
 router.post('/car', createCar);
 router.route('/car/:plate').get(getCar).put(updateCar).delete(deleteCar);
-router.get('/carservices/:dni', carServices);
+router.get('/carservices/:plate', carServices);
 
 export default router;
