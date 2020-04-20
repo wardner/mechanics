@@ -51,8 +51,5 @@ export const carServices = async (req: Request, res: Response): Promise<Response
         select: ['plate', 'brand', 'model', 'year', 'color'],
         where: {customer: req.params.dni}
     });
-
-
     return res.json(carServices);
-
 }
