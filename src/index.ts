@@ -22,6 +22,7 @@ createConnection()
 //middlewares
 app.use(cors());
 app.use(morgan('dev'));
+//Permite que manden json desde el FrontEnd
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 

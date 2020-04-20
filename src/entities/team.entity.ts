@@ -12,7 +12,4 @@ export class Team {
     @OneToOne(type => User, user => user.id)
     @JoinColumn()
     leader: User;
-
-    // @ManyToMany(type => Service, service => service.teamID)
-    // serviceID: Service[];
 }

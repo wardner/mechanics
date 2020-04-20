@@ -24,7 +24,4 @@ export class Customer {
 
     @OneToMany(type => Car, car => car.customer)
     car: Car[];
-
-    // @Column({default: 'true'})
-    // isActive: boolean;
 }

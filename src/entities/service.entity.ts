@@ -19,7 +19,4 @@ export class Service {
 
     @ManyToMany(type => Car, car => car.services)
     cars: Car[];
-
-    // @ManyToOne(type => Payment, payment => payment.services)
-    // payment: Payment;
 }

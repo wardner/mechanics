@@ -1,4 +1,4 @@
-import {Entity, Column, ManyToMany, Generated, JoinTable, ManyToOne} from 'typeorm';
+import {Entity, Column, ManyToMany, Generated, JoinTable, ManyToOne, JoinColumn} from 'typeorm';
 import {Customer} from './customer.entity';
 import { Service } from './service.entity';
 
@@ -23,16 +23,10 @@ export class Car {
     @Column()
     color: string;
 
-    @ManyToOne(type => Customer, customer => customer.car)
+    @ManyToOne(type => Customer, customer => customer.car, {nullable: false})
     customer: Customer;
 
     @ManyToMany(type => Service, service => service.cars)
     @JoinTable({name: 'car_services'})
     services: Service[];
-
-    // @ManyToOne(type => Customer, customer => customer.dni)
-    // customerDNI: Customer;
-
-    // @OneToMany(type => Service, service => service.id)
-    // service: Service[];
 }
