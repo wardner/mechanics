@@ -1,6 +1,7 @@
 import {Request, Response} from 'express';
 import { Car } from '../entities/car.entity';
 import { getRepository } from 'typeorm';
+import { Service } from '../entities/service.entity';
 
 export const getCars = async (req: Request, res: Response): Promise<Response> => {
     const cars = await getRepository(Car).find();
@@ -20,13 +21,28 @@ export const getCar = async (req: Request, res: Response): Promise<Response> => 
 }
 
 export const createCar = async (req: Request, res: Response): Promise<Response> => {
-    const newCar = getRepository(Car).create(req.body);
+    const car = new Car();
+    car.plate = req.body.plate;
+    car.brand = req.body.brand;
+    car.model = req.body.model;
+    car.year = req.body.year;
+    car.color = req.body.color;
+    car.customer = req.body.customer;
+    const { serviceID } = req.body;
+    const service = await getRepository(Service).findOne({serviceID});
+    if (service) car.services = [service]
+    console.log(car.services);
+    const newCar = getRepository(Car).create(car);
     const results = await getRepository(Car).save(newCar);
     return res.json(results);
 }
 
 export const updateCar = async (req: Request, res: Response): Promise<Response> => {
-    const car = await getRepository(Car).findOne(req.params.plate);
+    const {plate} = req.params;
+    const car = await getRepository(Car).findOne({ where: { plate }, relations: ['services']});
+    const { serviceID } = req.body;
+    const service = await getRepository(Service).findOne({serviceID});
+    if (service) car.services = [...car.services, service];
     if(car){
         getRepository(Car).merge(car, req.body);
         const results = await getRepository(Car).save(car);

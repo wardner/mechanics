@@ -26,7 +26,7 @@ export class Car {
     @ManyToOne(type => Customer, customer => customer.car, {nullable: false})
     customer: Customer;
 
-    @ManyToMany(type => Service, service => service.cars)
+    @ManyToMany(type => Service, {cascade: true})
     @JoinTable({name: 'car_services'})
     services: Service[];
 }

@@ -16,7 +16,4 @@ export class Service {
     @ManyToMany(type => Team)
     @JoinTable({name: 'team_services'})
     teams: Team[];
-
-    @ManyToMany(type => Car, car => car.services)
-    cars: Car[];
 }
