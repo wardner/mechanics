@@ -14,11 +14,13 @@ import loginRoutes from './routes/login.routes';
 import { tokenValidator } from './middlewares/auth.middleware';
 
 const app = express();
+
 createConnection()
     .then(connection => connection ?
         console.log(`Connected to DB: ${connection.options.database}`)
         : Error('Fail'));
 
+        
 //middlewares
 app.use(cors());
 app.use(morgan('dev'));
