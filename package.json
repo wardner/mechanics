@@ -23,7 +23,7 @@
         "mssql": "^6.2.0",
         "reflect-metadata": "^0.1.13",
         "tsc-watch": "^4.2.3",
-        "typeorm": "^0.2.24"
+        "typeorm": "^0.2.25"
     },
     "devDependencies": {
         "@types/bcryptjs": "^2.4.2",
